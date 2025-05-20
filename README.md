@@ -10,13 +10,11 @@ This repository contains code to generate a controlled dataset of shapes with te
 
 ### Installation
 
-1. Clone the repository:
-```bash
-git clone <repository-url>
-cd <repository-name>
-```
+1. Clone the repository
+   
+2. Navigate to the repository folder in the terminal
 
-2. Create a virtual environment:
+3. Create a virtual environment:
 ```bash
 # Windows
 python -m venv venv
@@ -48,18 +46,11 @@ shape_texture_dataset/
     └── Conflict_SquareShape_StripesTexture/
 ```
 
-### Dataset Properties
-- Image Size: 128x128 pixels
-- Grayscale images (L mode)
-- Training samples per class: 10
-- Test samples per condition: 10
-
 ### Features
 - Shapes: Triangle and Square
 - Textures: Stripes and Dots
-- Shape boundary width: 2 pixels
+- Shape boundary width: 2 pixels (default)
 - Centered textures within shapes
-- Consistent texture scaling
 
 ### Running the Generator
 
@@ -85,3 +76,20 @@ You can modify the following parameters in `dataset_generation.py`:
 - `IMG_SIZE`: Image dimensions (width, height)
 - `TEXTURE_SCALE_FACTOR`: Scale factor for texture size
 - `SHAPE_BOUNDARY_WIDTH`: Width of shape boundaries
+
+### Default Settings
+The following settings were used to generate the dataset described in the blog post:
+```python
+NUM_TRAIN_SAMPLES_PER_CLASS = 200
+NUM_TEST_SAMPLES_PER_CONDITION = 50
+IMG_SIZE = (128, 128)
+TEXTURE_SCALE_FACTOR = 1
+SHAPE_BOUNDARY_WIDTH = 2
+```
+
+These settings produce:
+- Training set: 400 images total (200 per class)
+- Test set: 200 images total (50 per condition × 4 conditions)
+- All images are 128×128 pixels in grayscale
+- Shapes have a 2-pixel black outline
+- Textures are scaled to their base size (scale factor = 1)

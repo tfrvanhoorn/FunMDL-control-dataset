@@ -2,8 +2,8 @@ from PIL import Image, ImageDraw, ImageOps
 import os
 
 # Global Variables
-NUM_TRAIN_SAMPLES_PER_CLASS = 10
-NUM_TEST_SAMPLES_PER_CONDITION = 10
+NUM_TRAIN_SAMPLES_PER_CLASS = 200
+NUM_TEST_SAMPLES_PER_CONDITION = 50
 OUTPUT_DIR = "shape_texture_dataset"
 IMG_SIZE = (128, 128)
 TEXTURE_SCALE_FACTOR = 1
@@ -109,15 +109,21 @@ def generate_image(shape_type, texture_type_str, filename, texture_scale, bounda
 
 # Function to generate the dataset
 def generate_dataset():
-    # Create output directory if it does not exist yet
-    if not os.path.exists(OUTPUT_DIR):
+    # Create output directory if it does not exist yet or clear it if it does
+    if os.path.exists(OUTPUT_DIR):
+        # Remove all files in directory
+        for filename in os.listdir(OUTPUT_DIR):
+            file_path = os.path.join(OUTPUT_DIR, filename)
+            if os.path.isfile(file_path):
+                os.unlink(file_path)
+    else:
         os.makedirs(OUTPUT_DIR)
 
     # Create training data images
     # Training Set A: Triangle + Stripes
     train_A_dir = os.path.join(OUTPUT_DIR, "train", "A_Triangle_Stripes")
     os.makedirs(train_A_dir, exist_ok=True)
-    print("Generating Training Set A (Triangle + Stripes)...")
+    print("Generating training set A (Triangle + Stripes)...")
     for i in range(NUM_TRAIN_SAMPLES_PER_CLASS):
         fname = os.path.join(train_A_dir, f"triangle_stripes_{i:04d}.png")
         generate_image("triangle", "stripes", fname, TEXTURE_SCALE_FACTOR, SHAPE_BOUNDARY_WIDTH)
@@ -125,7 +131,7 @@ def generate_dataset():
     # Training Set B: Square + Dots
     train_B_dir = os.path.join(OUTPUT_DIR, "train", "B_Square_Dots")
     os.makedirs(train_B_dir, exist_ok=True)
-    print("Generating Training Set B (Square + Dots)...")
+    print("Generating training set B (Square + Dots)...")
     for i in range(NUM_TRAIN_SAMPLES_PER_CLASS):
         fname = os.path.join(train_B_dir, f"square_dots_{i:04d}.png")
         generate_image("square", "dots", fname, TEXTURE_SCALE_FACTOR, SHAPE_BOUNDARY_WIDTH)
@@ -137,7 +143,7 @@ def generate_dataset():
     # Test Set: Congruent A (Triangle + Stripes)
     test_cong_A_dir = os.path.join(test_dir, "Congruent_A_Triangle_Stripes")
     os.makedirs(test_cong_A_dir, exist_ok=True)
-    print("Generating Test Set: Congruent A (Triangle + Stripes)...")
+    print("Generating test set: Congruent A (Triangle + Stripes)...")
     for i in range(NUM_TEST_SAMPLES_PER_CONDITION):
         fname = os.path.join(test_cong_A_dir, f"triangle_stripes_{i:04d}.png")
         generate_image("triangle", "stripes", fname, TEXTURE_SCALE_FACTOR, SHAPE_BOUNDARY_WIDTH)
@@ -145,7 +151,7 @@ def generate_dataset():
     # Test Set: Congruent B (Square + Dots)
     test_cong_B_dir = os.path.join(test_dir, "Congruent_B_Square_Dots")
     os.makedirs(test_cong_B_dir, exist_ok=True)
-    print("Generating Test Set: Congruent B (Square + Dots)...")
+    print("Generating test set: Congruent B (Square + Dots)...")
     for i in range(NUM_TEST_SAMPLES_PER_CONDITION):
         fname = os.path.join(test_cong_B_dir, f"square_dots_{i:04d}.png")
         generate_image("square", "dots", fname, TEXTURE_SCALE_FACTOR, SHAPE_BOUNDARY_WIDTH)
@@ -153,7 +159,7 @@ def generate_dataset():
     # Test Set: Conflict (Triangle with Dots Texture)
     test_conf_TriangleDots_dir = os.path.join(test_dir, "Conflict_TriangleShape_DotsTexture")
     os.makedirs(test_conf_TriangleDots_dir, exist_ok=True)
-    print("Generating Test Set: Conflict (Triangle with Dots Texture)...")
+    print("Generating test set: Conflict (Triangle with Dots Texture)...")
     for i in range(NUM_TEST_SAMPLES_PER_CONDITION):
         fname = os.path.join(test_conf_TriangleDots_dir, f"triangle_dots_{i:04d}.png")
         generate_image("triangle", "dots", fname, TEXTURE_SCALE_FACTOR, SHAPE_BOUNDARY_WIDTH)
@@ -161,7 +167,7 @@ def generate_dataset():
     # Test Set: Conflict (Square with Stripes Texture)
     test_conf_SquareStripes_dir = os.path.join(test_dir, "Conflict_SquareShape_StripesTexture")
     os.makedirs(test_conf_SquareStripes_dir, exist_ok=True)
-    print("Generating Test Set: Conflict (Square with Stripes Texture)...")
+    print("Generating test set: Conflict (Square with Stripes Texture)...")
     for i in range(NUM_TEST_SAMPLES_PER_CONDITION):
         fname = os.path.join(test_conf_SquareStripes_dir, f"square_stripes_{i:04d}.png")
         generate_image("square", "stripes", fname, TEXTURE_SCALE_FACTOR, SHAPE_BOUNDARY_WIDTH)

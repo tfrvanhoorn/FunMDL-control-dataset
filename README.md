@@ -46,6 +46,9 @@ shape_texture_dataset/
     └── Conflict_SquareShape_StripesTexture/
 ```
 
+### Pre-generated Dataset
+The dataset described in the blog post is already included in the `shape_texture_dataset` folder. If you run the generator script, it will replace these images with newly generated ones using your configured settings.
+
 ### Features
 - Shapes: Triangle and Square
 - Textures: Stripes and Dots

@@ -6,9 +6,6 @@ venv/
 .venv/
 .env
 
-# Dataset output
-shape_texture_dataset/
-
 # IDE
 .vscode/
 .idea/
